@@ -16,55 +16,50 @@ function getcomputerchoice(){
 }
 
 
-function gethumanchoice(){
-    let choice=prompt("R,P,S ?")
-    if (choice==="R"){
-        return "Rock"
-    }
-    else if (choice==="P"){
-        return "Paper"
-    }
-    else if (choice==="S"){
-        return "Scissor"
-    }
-}
 
 
-function playround(){
-    let hc=gethumanchoice()
+function playround(hc){
     let cc=getcomputerchoice()
     if (hc===cc){
-        console.log("Its a draw");
+        result="Its a draw";
     }
     else if ((hc === "Rock" && cc === "Scissor") ||
         (hc === "Paper" && cc === "Rock") ||
         (hc === "Scissor" && cc === "Paper")){
-            console.log(`You Win, ${hc} beats ${cc}`);
+            result=`You Win, ${hc} beats ${cc}`;
             humanscore++;
         }
     else{
-            console.log(`You Lose, ${cc} beats ${hc}`);
+            result=`You Lose, ${cc} beats ${hc}`;
            computerscore++;
 
 
     }
-    
+
+    document.getElementById("result").textContent=result
+    document.getElementById("score").textContent=`Player:${humanscore} | Computer:${computerscore}` 
+    if (humanscore === 5 || computerscore === 5) {
+        let finalResult = humanscore === 5 ? "You won the game!" : "Computer won the game!";
+        document.getElementById("finalResult").textContent = finalResult;
+        disableButtons();
+    }   
    
 
 }
 
-function playgame(){
-    let amount=prompt("How many rounds do u want to play?");
-    for(let i=1;i<=amount;i++){
-        playround();
+function disableButtons(){
+    let buttons=document.getElementsByTagName("button");
+    for(let i=0;i<buttons.length;i++){
+        buttons[i].disabled=true;
     }
-    if (humanscore > computerscore) {
-        console.log("You won the game!");
-    } else if (computerscore > humanscore) {
-        console.log("You lost the game!");
-    } else {
-        console.log("It's a draw!");
-    }
-
 }
-playgame()
+
+let rockbutton=document.getElementById("Rock");
+rockbutton.addEventListener("click",function() {playround("Rock")});
+
+let paperbutton=document.getElementById("Paper");
+paperbutton.addEventListener("click",function() {playround("Paper")});
+
+let scissorbutton=document.getElementById("Scissor");
+scissorbutton.addEventListener("click",function() {playround("Scissor")});
+
